@@ -14,4 +14,21 @@ export default async function handler(request, response) {
 
     response.status(200).json(place);
   }
+
+  if (request.method === "PATCH") {
+    const place = await Place.findByIdAndUpdate(
+      id,
+      {
+        $set: request.body,
+      },
+      { lean: true }
+    );
+    console.log(place);
+
+    if (!place) {
+      return response.status(404).json({ status: "Not Found" });
+    }
+
+    response.status(200).json(place);
+  }
 }
